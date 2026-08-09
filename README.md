@@ -44,7 +44,7 @@ python -m http.server 5500
 
 Then open:
 
-https://ai-agent-interviwer-4.onrender.com
+http://127.0.0.1:5500/backend/frontend/index.html
 
 
 Gemini API Configuration
