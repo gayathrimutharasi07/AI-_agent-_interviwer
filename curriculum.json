@@ -1,0 +1,125 @@
+{
+  "tracks": {
+    "python": {
+      "beginner": [
+        "Variables and data types",
+        "Conditional statements",
+        "Loops",
+        "Functions",
+        "Lists and dictionaries",
+        "Basic problem solving"
+      ],
+      "intermediate": [
+        "Object-oriented programming",
+        "Exception handling",
+        "File handling",
+        "Modules and packages",
+        "Data structures",
+        "Algorithms"
+      ],
+      "advanced": [
+        "Decorators",
+        "Generators",
+        "Multithreading",
+        "Async programming",
+        "Performance optimization",
+        "Advanced data structures"
+      ]
+    },
+    "javascript": {
+      "beginner": [
+        "Variables and data types",
+        "Functions",
+        "Arrays and objects",
+        "Loops",
+        "DOM basics"
+      ],
+      "intermediate": [
+        "ES6 features",
+        "Promises",
+        "Async and await",
+        "Closures",
+        "Event loop"
+      ],
+      "advanced": [
+        "Advanced asynchronous programming",
+        "Web performance",
+        "Design patterns",
+        "Memory management",
+        "Advanced JavaScript concepts"
+      ]
+    },
+    "cpp": {
+      "beginner": [
+        "Variables and data types",
+        "Conditions",
+        "Loops",
+        "Functions",
+        "Arrays",
+        "Pointers"
+      ],
+      "intermediate": [
+        "Classes and objects",
+        "Inheritance",
+        "Polymorphism",
+        "STL",
+        "Exception handling",
+        "File handling"
+      ],
+      "advanced": [
+        "Templates",
+        "Smart pointers",
+        "Advanced STL",
+        "Memory management",
+        "Multithreading",
+        "Advanced OOP"
+      ]
+    },
+    "data_structures": {
+      "beginner": [
+        "Arrays",
+        "Strings",
+        "Linked lists",
+        "Stacks",
+        "Queues"
+      ],
+      "intermediate": [
+        "Trees",
+        "Binary search trees",
+        "Hash tables",
+        "Heaps",
+        "Recursion"
+      ],
+      "advanced": [
+        "Graphs",
+        "Dynamic programming",
+        "Greedy algorithms",
+        "Advanced graph algorithms",
+        "Complexity analysis"
+      ]
+    },
+    "databases": {
+      "beginner": [
+        "Database basics",
+        "Tables",
+        "Primary keys",
+        "Foreign keys",
+        "Basic SQL"
+      ],
+      "intermediate": [
+        "Joins",
+        "Subqueries",
+        "Indexes",
+        "Normalization",
+        "Transactions"
+      ],
+      "advanced": [
+        "Query optimization",
+        "Database design",
+        "Concurrency",
+        "Advanced indexing",
+        "Distributed databases"
+      ]
+    }
+  }
+}

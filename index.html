@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewAI | AI Interview Agent</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6fb;
+            color: #172033;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 245px;
+
+            background: #111827;
+            color: white;
+
+            padding: 25px 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 0 10px 35px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: linear-gradient(
+                135deg,
+                #7c3aed,
+                #06b6d4
+            );
+
+            font-weight: bold;
+        }
+
+        .logo-name {
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .logo-subtitle {
+            color: #9ca3af;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .section-title {
+            color: #6b7280;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            margin: 15px 10px 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 12px;
+
+            border-radius: 9px;
+
+            color: #d1d5db;
+
+            cursor: pointer;
+
+            margin-bottom: 4px;
+
+            transition: 0.2s;
+        }
+
+        .nav-item:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .nav-item.active {
+            background: #5b21b6;
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 245px;
+            padding: 35px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+        }
+
+        .header p {
+            color: #6b7280;
+            margin-top: 7px;
+        }
+
+        .backend-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            background: white;
+
+            padding: 10px 15px;
+
+            border-radius: 25px;
+
+            border: 1px solid #e5e7eb;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #10b981;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 15px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.04);
+        }
+
+        .stat-title {
+            color: #6b7280;
+
+            font-size: 13px;
+
+            margin-bottom: 8px;
+        }
+
+        .stat-number {
+            font-size: 27px;
+
+            font-weight: bold;
+        }
+
+        .stat-description {
+            color: #059669;
+
+            font-size: 11px;
+
+            margin-top: 6px;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+
+            border-radius: 17px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 7px 25px
+                rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            padding: 23px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+        .card-header h2 {
+            font-size: 19px;
+        }
+
+        .card-header p {
+            color: #6b7280;
+
+            font-size: 13px;
+
+            margin-top: 6px;
+
+            line-height: 1.5;
+        }
+
+        .card-body {
+            padding: 23px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+        .form-control {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            background: white;
+        }
+
+        .form-control:focus {
+            border-color: #7c3aed;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(124,58,237,0.12);
+        }
+
+        /* ================= BUTTON ================= */
+
+        .generate-btn {
+            width: 100%;
+
+            border: none;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            background: #111827;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .generate-btn:hover {
+            background: #5b21b6;
+
+            transform: translateY(-1px);
+        }
+
+        .generate-btn:disabled {
+            background: #9ca3af;
+
+            cursor: wait;
+
+            transform: none;
+        }
+
+        /* ================= QUESTION ================= */
+
+        .question-area {
+            padding: 28px;
+
+            min-height: 370px;
+        }
+
+        .question-badge {
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            background: #ede9fe;
+
+            color: #5b21b6;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            margin-bottom: 18px;
+        }
+
+        #questionText {
+            font-size: 20px;
+
+            line-height: 1.6;
+
+            font-weight: 600;
+        }
+
+        .placeholder {
+            color: #9ca3af;
+
+            font-weight: normal;
+
+            font-size: 16px !important;
+        }
+
+        /* ================= RECENT ================= */
+
+        .recent {
+            margin-top: 30px;
+        }
+
+        .recent h3 {
+            font-size: 14px;
+
+            margin-bottom: 12px;
+        }
+
+        .recent-item {
+            padding: 10px 12px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            margin-bottom: 7px;
+        }
+
+        /* ================= TOAST ================= */
+
+        #toast {
+            position: fixed;
+
+            right: 25px;
+            bottom: 25px;
+
+            background: #111827;
+
+            color: white;
+
+            padding: 14px 18px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            max-width: 350px;
+
+            display: none;
+
+            z-index: 1000;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 950px) {
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 650px) {
+
+            .sidebar {
+                position: static;
+
+                width: 100%;
+            }
+
+            .main {
+                margin-left: 0;
+
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                AI
+            </div>
+
+            <div>
+
+                <div class="logo-name">
+                    InterviewAI
+                </div>
+
+                <div class="logo-subtitle">
+                    Intelligent Interview Agent
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+            Workspace
+        </div>
+
+
+        <div class="nav-item active">
+            🏠 Dashboard
+        </div>
+
+
+        <div class="nav-item">
+            ＋ Create Interview
+        </div>
+
+
+        <div class="nav-item">
+            ◉ New Interview
+        </div>
+
+
+        <div class="nav-item">
+            ♙ Candidates
+        </div>
+
+
+        <div class="section-title">
+            Manage
+        </div>
+
+
+        <div class="nav-item">
+            ? Question Bank
+        </div>
+
+
+        <div class="nav-item">
+            ▤ Reports
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <div class="header">
+
+            <div>
+
+                <h1>
+                    AI Interview Dashboard
+                </h1>
+
+                <p>
+                    Build realistic technical interviews with your AI interviewer.
+                </p>
+
+            </div>
+
+
+            <div class="backend-status">
+
+                <span
+                    class="status-dot"
+                    id="statusDot"
+                ></span>
+
+                <span id="backendStatus">
+                    Checking backend...
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= STATS ================= -->
+
+        <section class="stats">
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Questions Generated
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="statTotal"
+                >
+                    0
+                </div>
+
+                <div class="stat-description">
+                    AI generated
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Interview Progress
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="statProgress"
+                >
+                    0
+                </div>
+
+                <div class="stat-description">
+                    Questions completed
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    AI Engine
+                </div>
+
+                <div
+                    class="stat-number"
+                    id="aiStatus"
+                >
+                    Gemini
+                </div>
+
+                <div class="stat-description">
+                    Powered by AI
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content">
+
+
+            <!-- ================= FORM ================= -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        Create AI Interview
+                    </h2>
+
+                    <p>
+                        Select the interview track, candidate level,
+                        and technical topic.
+                    </p>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <div class="form-group">
+
+                        <label for="track">
+                            Interview Track
+                        </label>
+
+                        <input
+                            id="track"
+                            class="form-control"
+                            type="text"
+                            placeholder="Software Engineering"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="level">
+                            Candidate Level
+                        </label>
+
+                        <select
+                            id="level"
+                            class="form-control"
+                        >
+
+                            <option value="">
+                                Select Level
+                            </option>
+
+                            <option value="Beginner">
+                                Beginner
+                            </option>
+
+                            <option value="Intermediate">
+                                Intermediate
+                            </option>
+
+                            <option value="Advanced">
+                                Advanced
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="topic">
+                            Technical Topic
+                        </label>
+
+                        <input
+                            id="topic"
+                            class="form-control"
+                            type="text"
+                            placeholder="Arrays"
+                        >
+
+                    </div>
+
+
+                    <button
+                        id="generateBtn"
+                        class="generate-btn"
+                        onclick="generateQuestion()"
+                    >
+                        Generate AI Question
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= QUESTION ================= -->
+
+            <div class="card">
+
+                <div class="question-area">
+
+                    <div class="question-badge">
+                        AI INTERVIEW QUESTION
+                    </div>
+
+
+                    <div
+                        id="questionText"
+                        class="placeholder"
+                    >
+                        Your AI-generated interview question
+                        will appear here.
+                    </div>
+
+
+                    <div class="recent">
+
+                        <h3>
+                            Recent Questions
+                        </h3>
+
+                        <div id="recentList">
+
+                            <div class="recent-item">
+                                No questions generated yet.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= TOAST ================= -->
+
+    <div id="toast"></div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        /*
+        ============================================
+        BACKEND CONNECTION
+        ============================================
+        */
+
+     const API = "http://127.0.0.1:8000";
+            
+
+
+        /*
+        ============================================
+        ELEMENTS
+        ============================================
+        */
+
+        const track =
+            document.getElementById("track");
+
+        const level =
+            document.getElementById("level");
+
+        const topic =
+            document.getElementById("topic");
+
+        const questionText =
+            document.getElementById("questionText");
+
+        const generateBtn =
+            document.getElementById("generateBtn");
+
+        const statTotal =
+            document.getElementById("statTotal");
+
+        const statProgress =
+            document.getElementById("statProgress");
+
+        const backendStatus =
+            document.getElementById("backendStatus");
+
+        const statusDot =
+            document.getElementById("statusDot");
+
+        const recentList =
+            document.getElementById("recentList");
+
+
+        /*
+        ============================================
+        TOAST
+        ============================================
+        */
+
+        function showToast(message) {
+
+            const toast =
+                document.getElementById("toast");
+
+            toast.textContent =
+                message;
+
+            toast.style.display =
+                "block";
+
+            setTimeout(() => {
+
+                toast.style.display =
+                    "none";
+
+            }, 4000);
+        }
+
+
+        /*
+        ============================================
+        CHECK BACKEND
+        ============================================
+        */
+
+        async function checkBackend() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        API_URL + "/health"
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Backend unavailable"
+                    );
+
+                }
+
+
+                backendStatus.textContent =
+                    "Backend Connected";
+
+                statusDot.style.background =
+                    "#10b981";
+
+            }
+
+            catch(error) {
+
+                backendStatus.textContent =
+                    "Backend Offline";
+
+                statusDot.style.background =
+                    "#dc2626";
+
+            }
+
+        }
+
+
+        /*
+        ============================================
+        GENERATE QUESTION
+        ============================================
+        */
+
+        
+async function generateQuestion() {
+    const track = document.getElementById("track").value.trim();
+    const level = document.getElementById("level").value.trim();
+    const topic = document.getElementById("topic").value.trim();
+
+    const questionElement = document.getElementById("question");
+
+    if (!track || !level || !topic) {
+        questionElement.textContent =
+            "Please select Track, Level and Topic first.";
+        return;
+    }
+
+    questionElement.textContent = "Generating question...";
+
+    try {
+        const response = await fetch(
+            "http://127.0.0.1:8000/generate-question",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    track: track,
+                    level: level,
+                    topic: topic
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail || "Backend returned an error."
+            );
+        }
+
+        questionElement.textContent =
+            data.question || "Question was generated.";
+
+    } catch (error) {
+        console.error("QUESTION ERROR:", error);
+
+        questionElement.textContent =
+            "Could not generate the question: " +
+            error.message;
+    }
+}
+</script>
+
+</body>
+</html>
